@@ -3,9 +3,11 @@
 namespace App\Actions;
 
 use App\Dtos\StoreOrUpdateUserDto;
+use App\Mail\SendWelcomeMessage;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 final class StoreUserAction
 {
@@ -31,6 +33,15 @@ final class StoreUserAction
             Log::error($e->getMessage());
             DB::rollBack();
             return;
+        }
+
+        $this->sendMail($user);
+    }
+
+    private function sendMail(User $user): void
+    {
+        foreach ($user->userEmails as $userEmail) {
+            Mail::to($userEmail->email)->queue(new SendWelcomeMessage($user));
         }
     }
 }
