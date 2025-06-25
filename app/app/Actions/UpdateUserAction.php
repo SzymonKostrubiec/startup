@@ -31,6 +31,7 @@ final class UpdateUserAction
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
+
             return;
         }
 

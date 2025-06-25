@@ -32,6 +32,7 @@ final class StoreUserAction
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             DB::rollBack();
+
             return;
         }
 

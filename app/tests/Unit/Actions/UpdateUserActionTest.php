@@ -29,7 +29,7 @@ class UpdateUserActionTest extends TestCase
             emails: ['janusz1@example.com', 'janusz2@example.com']
         );
 
-        $action = new UpdateUserAction();
+        $action = new UpdateUserAction;
         $action->handle($user, $dto);
 
         $this->assertDatabaseHas('users', [
@@ -41,17 +41,17 @@ class UpdateUserActionTest extends TestCase
 
         $this->assertDatabaseMissing('user_emails', [
             'email' => 'kowalski@example.com',
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('user_emails', [
             'email' => 'janusz1@example.com',
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         $this->assertDatabaseHas('user_emails', [
             'email' => 'janusz2@example.com',
-            'user_id' => $user->id
+            'user_id' => $user->id,
         ]);
 
         Mail::assertQueued(SendWelcomeMessage::class, 2);
@@ -71,7 +71,7 @@ class UpdateUserActionTest extends TestCase
         $userMock->shouldReceive('update')->andThrow(new \Exception('Test error'));
         $this->app->instance(User::class, $userMock);
 
-        $action = new UpdateUserAction();
+        $action = new UpdateUserAction;
         $action->handle($userMock, $dto);
 
         $this->assertDatabaseMissing('users', [

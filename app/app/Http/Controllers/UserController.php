@@ -9,7 +9,6 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -19,6 +18,7 @@ class UserController extends Controller
     public function index(): JsonResponse
     {
         $users = User::with('userEmails')->get();
+
         return response()->json($users);
     }
 
@@ -42,6 +42,7 @@ class UserController extends Controller
     public function show(User $user): JsonResponse
     {
         $user->load('userEmails');
+
         return response()->json($user);
     }
 
@@ -54,7 +55,7 @@ class UserController extends Controller
         $action->handle($user, $dto);
 
         return response()->json([
-            'message' => 'User updated successfully'
+            'message' => 'User updated successfully',
         ]);
     }
 
@@ -66,7 +67,7 @@ class UserController extends Controller
         $action->handle($user);
 
         return response()->json([
-            'message' => 'User deleted successfully'
+            'message' => 'User deleted successfully',
         ]);
     }
 }

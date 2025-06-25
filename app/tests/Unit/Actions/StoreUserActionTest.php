@@ -25,7 +25,7 @@ class StoreUserActionTest extends TestCase
             emails: ['janusz@example.com', 'kowalski@example.com']
         );
 
-        $action = new StoreUserAction();
+        $action = new StoreUserAction;
         $action->handle($dto);
 
         $this->assertDatabaseHas('users', [

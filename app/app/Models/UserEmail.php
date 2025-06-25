@@ -19,7 +19,7 @@ class UserEmail extends Model
 
     protected $fillable = [
         'user_id',
-        'email'
+        'email',
     ];
 
     public function user(): HasOne
@@ -27,4 +27,3 @@ class UserEmail extends Model
         return $this->hasOne(User::class);
     }
 }
-

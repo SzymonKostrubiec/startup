@@ -9,7 +9,5 @@ final readonly class StoreOrUpdateUserDto
         public string $lastName,
         public string $phone,
         public array $emails,
-    )
-    {
-    }
+    ) {}
 }

@@ -18,7 +18,7 @@ class DeleteUserActionTest extends TestCase
         $user = User::factory()->create();
         $email = UserEmail::factory()->create(['user_id' => $user->id]);
 
-        $action = new DeleteUserAction();
+        $action = new DeleteUserAction;
         $action->handle($user);
 
         $this->assertDatabaseMissing('users', ['id' => $user->id]);
@@ -34,7 +34,7 @@ class DeleteUserActionTest extends TestCase
         $userMock->shouldReceive('delete')->andThrow(new \Exception('Test error'));
         $this->app->instance(User::class, $userMock);
 
-        $action = new DeleteUserAction();
+        $action = new DeleteUserAction;
         $action->handle($userMock);
 
         $this->assertDatabaseHas('users', ['id' => $user->id]);

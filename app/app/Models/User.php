@@ -32,7 +32,6 @@ class User extends Authenticatable
         'phone',
     ];
 
-
     /**
      * Get the attributes that should be cast.
      *
