@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Actions\DeleteUserAction;
+use App\Actions\StoreUserAction;
+use App\Actions\UpdateUserAction;
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
+
+class UserController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(): JsonResponse
+    {
+        $users = User::with('userEmails')->get();
+
+        return response()->json($users);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(StoreUserRequest $request, StoreUserAction $action): JsonResponse
+    {
+        $dto = $request->getDto();
+
+        $action->handle($dto);
+
+        return response()->json([
+            'message' => 'User created successfully',
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user): JsonResponse
+    {
+        $user->load('userEmails');
+
+        return response()->json($user);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateUserRequest $request, User $user, UpdateUserAction $action): JsonResponse
+    {
+        $dto = $request->getDto();
+        $action->handle($user, $dto);
+
+        return response()->json([
+            'message' => 'User updated successfully',
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(User $user, DeleteUserAction $action): JsonResponse
+    {
+        $action->handle($user);
+
+        return response()->json([
+            'message' => 'User deleted successfully',
+        ]);
+    }
+}
