@@ -16,9 +16,10 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): JsonResponse
     {
-        //
+        $users = User::with('userEmails')->get();
+        return response()->json($users);
     }
 
     /**
@@ -38,9 +39,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user): JsonResponse
     {
-        //
+        $user->load('userEmails');
+        return response()->json($user);
     }
 
     /**
