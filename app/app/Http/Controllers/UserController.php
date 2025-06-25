@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\StoreUserAction;
+use App\Http\Requests\StoreUserRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -17,9 +20,15 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request, StoreUserAction $action): JsonResponse
     {
-        //
+        $dto = $request->getDto();
+
+        $action->handle($dto);
+
+        return response()->json([
+            'message' => 'User created successfully',
+        ]);
     }
 
     /**
