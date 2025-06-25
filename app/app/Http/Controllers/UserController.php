@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\DeleteUserAction;
 use App\Actions\StoreUserAction;
 use App\Actions\UpdateUserAction;
 use App\Http\Requests\StoreUserRequest;
@@ -58,8 +59,12 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user, DeleteUserAction $action): JsonResponse
     {
-        //
+        $action->handle($user);
+
+        return response()->json([
+            'message' => 'User deleted successfully'
+        ]);
     }
 }
