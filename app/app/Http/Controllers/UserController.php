@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Actions\StoreUserAction;
+use App\Actions\UpdateUserAction;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -42,9 +45,14 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user, UpdateUserAction $action): JsonResponse
     {
-        //
+        $dto = $request->getDto();
+        $action->handle($user, $dto);
+
+        return response()->json([
+            'message' => 'User updated successfully'
+        ]);
     }
 
     /**
